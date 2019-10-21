@@ -38,7 +38,7 @@ func getOrCreateHostFile() (string, error) {
 	fileLock.Lock()
 	defer fileLock.Unlock()
 
-	if _, err := os.Stat(hostFile); os.IsNotExist(err) {
+	if s, err := os.Stat(hostFile); os.IsNotExist(err) || s.Size() == 0 {
 		os.MkdirAll(configDir, 0640)
 		// hostFile does not exist... create one with unique id
 		id, err := generateUniqueNodeId()
